@@ -1,3 +1,4 @@
+var backgroundImages;
 var monde;
 var flash_power;
 var Breakout = new Phaser.Class({
@@ -17,7 +18,7 @@ var Breakout = new Phaser.Class({
 
     preload: function ()
     {
-        this.load.atlas('assets', 'breakout/breakout.png', 'breakout/breakout.json');
+        this.load.atlas('assets', 'breakout/breakout.png', 'breakout/breakout.json', 'breakout/meadow.jpg');
         this.load.audio('beeh', 'breakout/beeh.mp3');
         this.load.audio('ost', 'breakout/field.mp3');
         this.load.audio('bounce', 'breakout/bounce.mp3');
@@ -26,10 +27,13 @@ var Breakout = new Phaser.Class({
         this.load.audio('lost', 'breakout/lost.wav');
         this.load.audio('vicutolii', 'breakout/victory.mp3');
         this.load.image('powerup', 'breakout/powerup.png');
+        this.load.image('meadow', 'breakout/meadow.jpg')
     },
 
     create: function ()
     {
+        backgroundImages = this.add.image(400, 300, 'meadow');
+        backgroundImages.width = 800;
         monde = this.physics.world;
         scoreText = this.add.text(20, 20, 'Score : 0', { fontFamily: '"Roboto Condensed"' });
         comboText = this.add.text(20, 40, 'Combo x0', { fontFamily: '"Roboto Condensed"' });
