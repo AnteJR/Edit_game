@@ -41,7 +41,7 @@ var Breakout = new Phaser.Class({
         balle = this.ball;
         scoreText = this.add.text(20, 20, 'Score : 0', { fontFamily: '"Roboto Condensed"' });
         comboText = this.add.text(20, 40, 'Combo x0', { fontFamily: '"Roboto Condensed"' });
-        lifeText = this.add.text(750, 20, 'Life x5'+ballLeft, { fontFamily: '"Roboto Condensed"' });
+        lifeText = this.add.text(750, 20, 'Life x'+ballLeft, { fontFamily: '"Roboto Condensed"' });
     
         flash_power = this.add.image(400, 300, 'powerup');
         flash_power.alpha = 0;
@@ -302,9 +302,9 @@ var Breakout = new Phaser.Class({
         scene: [ Breakout, GameOver, VictoryScreen ], 
         physics: { 
             default: 'arcade', 
-            /*arcade : { 
+            arcade : { 
                 debug : true 
-            } */
+            } 
         }, 
     };
     
