@@ -1,3 +1,4 @@
+var monde;
 var Breakout = new Phaser.Class({
 
     Extends: Phaser.Scene,
@@ -25,6 +26,7 @@ var Breakout = new Phaser.Class({
 
     create: function ()
     {
+        monde = this.physics.world;
         scoreText = this.add.text(20, 20, 'Score : 0', { fontFamily: '"Roboto Condensed"' });
         comboText = this.add.text(20, 40, 'Combo x0', { fontFamily: '"Roboto Condensed"' });
         lifeText = this.add.text(750, 20, 'Life x5', { fontFamily: '"Roboto Condensed"' });
@@ -33,7 +35,7 @@ var Breakout = new Phaser.Class({
         this.music.play()
         
         //  Enable world bounds, but disable the floor
-        this.physics.world.setBoundsCollision(true, true, true, false);
+        monde.setBoundsCollision(true, true, true, false);
 
         //  Create the bricks in a 10x6 grid
         this.bricks = this.physics.add.staticGroup({
@@ -113,9 +115,9 @@ var Breakout = new Phaser.Class({
     combo: function ()
     {
         //superpower
-        this.physics.world.setBoundsCollision(true);
+        monde.setBoundsCollision(true);
         setTimeout(function(){ 
-            this.physics.world.setBoundsCollision(true, true, true, false);
+            monde.setBoundsCollision(true, true, true, false);
         }, 5000);
     },
 
