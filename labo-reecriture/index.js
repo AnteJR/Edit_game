@@ -1,6 +1,6 @@
 var backgroundImages; 
 var monde; 
-var balle; 
+var balle;
 var flash_power; 
 var versdroite = true; 
 var inCombo = false; 
@@ -38,18 +38,11 @@ var Breakout = new Phaser.Class({
         backgroundImages = this.add.image(400, 300, 'meadow');
         backgroundImages.width = 800;
         monde = this.physics.world;
-<<<<<<< HEAD
-        balle = this.physics.ball;
+        balle = this.ball;
         scoreText = this.add.text(20, 20, 'Score : 0', { fontFamily: '"Roboto Condensed"' });
         comboText = this.add.text(20, 40, 'Combo x0', { fontFamily: '"Roboto Condensed"' });
-        lifeText = this.add.text(750, 20, 'Life x5', { fontFamily: '"Roboto Condensed"' });
+        lifeText = this.add.text(750, 20, 'Life x5'+ballLeft, { fontFamily: '"Roboto Condensed"' });
     
-=======
-        scoreText = this.add.text(20, 20, 'Score : '+score, { fontFamily: '"Roboto Condensed"' });
-        comboText = this.add.text(20, 40, 'Combo x0', { fontFamily: '"Roboto Condensed"' });
-        lifeText = this.add.text(750, 20, 'Life x'+ballLeft, { fontFamily: '"Roboto Condensed"' });
-
->>>>>>> 6220e031598a45b62a7cc805a0b127a16e226eba
         flash_power = this.add.image(400, 300, 'powerup');
         flash_power.alpha = 0;
     
@@ -123,12 +116,11 @@ var Breakout = new Phaser.Class({
         comboText.setText("Combo x"+freeBounce);
         console.log(score + " " + freeBounce + " " + multiplier);
         scoreText.setText("Score : "+score);
-        if(freeBounce == 10)
+        if(freeBounce == 10 && inCombo == false)
         {
+            inCombo = true
             this.sound.play('combo');
-            if(!inCombo){
-                this.combo();
-            }
+            this.combo();
         }
     
         if (this.bricks.countActive() === 0)
@@ -148,13 +140,14 @@ var Breakout = new Phaser.Class({
         //superpower
         monde.setBoundsCollision(true);
         flash_power.alpha = 0.5;
-        this.ball.body.velocity.x*=2;
-        this.ball.body.velocity.y*=2;        
+        balle = this.ball.body.velocity;
+        balle.x*=2;
+        balle.y*=2;        
         setTimeout(function(){ 
             monde.setBoundsCollision(true, true, true, false);
             flash_power.alpha = 0;
-            balle.body.velocity.x = 1;
-            balle.body.velocity.y = 1;
+            balle.x /= 2;
+            balle.y /= 2;
             inCombo = false;
         }, 5000);
     },
@@ -309,9 +302,9 @@ var Breakout = new Phaser.Class({
         scene: [ Breakout, GameOver, VictoryScreen ], 
         physics: { 
             default: 'arcade', 
-            arcade : { 
+            /*arcade : { 
                 debug : true 
-            } 
+            } */
         }, 
     };
     
