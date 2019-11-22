@@ -16,6 +16,11 @@ var Breakout = new Phaser.Class({
     preload: function ()
     {
         this.load.atlas('assets', 'breakout/breakout.png', 'breakout/breakout.json');
+        this.load.audio('beeh', 'breakout/beeh.mp3');
+        this.load.audio('ost', 'breakout/field.mp3');
+        this.load.audio('bounce', 'breakout/bounce.mp3');
+        this.load.audio('combo', 'breakout/combo.mp3');
+        this.load.audio('gameover', 'breakout/gameover.mp3');
     },
 
     create: function ()
@@ -23,6 +28,10 @@ var Breakout = new Phaser.Class({
         scoreText = this.add.text(20, 20, 'Score : 0', { fontFamily: '"Roboto Condensed"' });
         comboText = this.add.text(20, 40, 'Combo x0', { fontFamily: '"Roboto Condensed"' });
         lifeText = this.add.text(750, 20, 'Life x5', { fontFamily: '"Roboto Condensed"' });
+        
+        this.music = this.sound.add('ost')
+        this.music.play()
+        
         //  Enable world bounds, but disable the floor
         this.physics.world.setBoundsCollision(true, true, true, false);
 
@@ -76,7 +85,8 @@ var Breakout = new Phaser.Class({
     hitBrick: function (ball, brick)
     {
         brick.disableBody(true, true);
-        //implementer son brique cassée
+        // son mouton capturé
+        this.sound.play('beeh');
 
         score+= 100+(100*multiplier);
         multiplier = freeBounce*0.05;
@@ -86,6 +96,7 @@ var Breakout = new Phaser.Class({
         scoreText.setText("Score : "+score);
         if(freeBounce >= 15)
         {
+            this.sound.play('combo');
             this.combo();
         }
 
@@ -139,7 +150,8 @@ var Breakout = new Phaser.Class({
         var diff = 0;
         freeBounce = 0;
         comboText.setText("Combo x"+freeBounce);
-        //implémenter son rebond
+        // son rebond
+        this.sound.play('bounce');
 
         if (ball.x < paddle.x)
         {
@@ -168,6 +180,8 @@ var Breakout = new Phaser.Class({
             ballLeft--;
             lifeText.setText("Life x"+ballLeft);
             if(ballLeft <= 0){
+                //son game over
+                this.sound.play('gameover');
                 //insère un écran de game over
                 //si on appuie sur une touche/bouton -->
                 //this.resetLevel();
