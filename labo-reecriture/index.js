@@ -1,4 +1,5 @@
 var monde;
+var flash_power;
 var Breakout = new Phaser.Class({
 
     Extends: Phaser.Scene,
@@ -22,6 +23,7 @@ var Breakout = new Phaser.Class({
         this.load.audio('bounce', 'breakout/bounce.mp3');
         this.load.audio('combo', 'breakout/combo.mp3');
         this.load.audio('gameover', 'breakout/gameover.mp3');
+        this.load.image('powerup', 'breakout/powerup.png');
     },
 
     create: function ()
@@ -30,6 +32,9 @@ var Breakout = new Phaser.Class({
         scoreText = this.add.text(20, 20, 'Score : 0', { fontFamily: '"Roboto Condensed"' });
         comboText = this.add.text(20, 40, 'Combo x0', { fontFamily: '"Roboto Condensed"' });
         lifeText = this.add.text(750, 20, 'Life x5', { fontFamily: '"Roboto Condensed"' });
+
+        flash_power = this.add.image(400, 300, 'powerup');
+        flash_power.alpha = 0;
         
         this.music = this.sound.add('ost')
         this.music.play()
@@ -116,8 +121,10 @@ var Breakout = new Phaser.Class({
     {
         //superpower
         monde.setBoundsCollision(true);
+        flash_power.alpha = 0.5;
         setTimeout(function(){ 
             monde.setBoundsCollision(true, true, true, false);
+            flash_power.alpha = 0;
         }, 5000);
     },
 
@@ -187,6 +194,9 @@ var Breakout = new Phaser.Class({
                 //insère un écran de game over
                 //si on appuie sur une touche/bouton -->
                 //this.resetLevel();
+                ballLeft = 5;
+                score = 0;
+                multiplier = 0;
                 this.scene.start('gameover');
             }
             this.resetBall();
