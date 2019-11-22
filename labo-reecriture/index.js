@@ -107,12 +107,9 @@ var Breakout = new Phaser.Class({
         comboText.setText("Combo x"+freeBounce);
         console.log(score + " " + freeBounce + " " + multiplier);
         scoreText.setText("Score : "+score);
-        if(freeBounce >= 15)
+        if(freeBounce == 15)
         {
-            if(freeBounce == 15)
-            {
-                this.sound.play('combo');
-            }
+            this.sound.play('combo');
             this.combo();
         }
 
