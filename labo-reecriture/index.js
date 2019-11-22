@@ -253,6 +253,7 @@ var VictoryScreen = new Phaser.Class({
     {
         this.add.text(100, 200, 'YOU WON!!', { fontSize: 100, fontFamily: '"Roboto Condensed"' });
         this.add.text(250, 300, 'click to restart the game', { fontSize: 30, fontFamily: '"Roboto Condensed"'});
+        this.add.text(250, 350, 'you scored : '+score+' points', { fontSize: 30, fontFamily: '"Roboto Condensed"'});
         this.input.once('pointerup', function (event) {
             this.scene.start('breakout');
         },this);
