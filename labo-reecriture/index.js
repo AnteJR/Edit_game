@@ -21,7 +21,9 @@ var Breakout = new Phaser.Class({
         this.load.audio('ost', 'breakout/field.mp3');
         this.load.audio('bounce', 'breakout/bounce.mp3');
         this.load.audio('combo', 'breakout/combo.mp3');
-        this.load.audio('gameover', 'breakout/gameover.mp3');
+        this.load.audio('youdied', 'breakout/gameover.mp3');
+        this.load.audio('lost', 'breakout/lost.wav');
+        this.load.audio('vicutolii', 'breakout/victory.mp3');
     },
 
     create: function ()
@@ -31,7 +33,7 @@ var Breakout = new Phaser.Class({
         comboText = this.add.text(20, 40, 'Combo x0', { fontFamily: '"Roboto Condensed"' });
         lifeText = this.add.text(750, 20, 'Life x5', { fontFamily: '"Roboto Condensed"' });
         
-        this.music = this.sound.add('ost')
+        this.music = this.sound.add('ost',{loop: true})
         this.music.play()
         
         //  Enable world bounds, but disable the floor
@@ -88,7 +90,7 @@ var Breakout = new Phaser.Class({
     {
         brick.disableBody(true, true);
         // son mouton capturé
-        this.sound.play('beeh');
+        this.sound.play('beeh',{volume: 0.25});
 
         score+= 100+(100*multiplier);
         multiplier = freeBounce*0.05;
@@ -98,14 +100,19 @@ var Breakout = new Phaser.Class({
         scoreText.setText("Score : "+score);
         if(freeBounce >= 15)
         {
-            this.sound.play('combo');
+            if(freeBounce == 15)
+            {
+                this.sound.play('combo');
+            }
             this.combo();
         }
 
         if (this.bricks.countActive() === 0)
         {
             //insérer un écran de victoire
-            //implémenter musique de victoire
+            //arrêter musique et jouer son victoire
+            this.music.stop();
+            this.sound.play('vicutolii');
             //score
             //si on appuie sur un bouton/touche -->
             this.scene.start('victoryscreen');
@@ -122,13 +129,14 @@ var Breakout = new Phaser.Class({
     },
 
     resetBall: function ()
-    {
+    {   
         this.ball.setVelocity(0);
         freeBounce = 0;
         comboText.setText("Combo x"+freeBounce);
         this.ball.setPosition(this.paddle.x, 500);
         this.ball.setData('onPaddle', true);
-        //implementer son perte balle
+        //son perte balle
+        this.sound.play('lost');
     },
 
     resetLevel: function ()
@@ -182,8 +190,9 @@ var Breakout = new Phaser.Class({
             ballLeft--;
             lifeText.setText("Life x"+ballLeft);
             if(ballLeft <= 0){
-                //son game over
-                this.sound.play('gameover');
+                //arrêter musique et jouer son game over
+                this.music.stop();
+                this.sound.play('youdied');
                 //insère un écran de game over
                 //si on appuie sur une touche/bouton -->
                 //this.resetLevel();
